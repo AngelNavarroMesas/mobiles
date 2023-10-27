@@ -1,6 +1,7 @@
 package com.example.piedrapapeltijerasjc
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -22,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.piedrapapeltijerasjc.ui.theme.PiedraPapelTijerasJCTheme
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,30 +47,38 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     Column (Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
 
         Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
-            Button(onClick = {/*TODO*/}, Modifier.padding(10.dp)) {
+            Button(onClick = { /*TODO*/ },Modifier.width(width =125.dp).padding(5.dp)) {
                 Image(painter = painterResource(id = R.drawable.piedra), contentDescription = "piedra")
             }
-            Button(onClick = {/*TODO*/}) {
+            Button(onClick = { /*TODO*/ },Modifier.width(width =125.dp).padding(5.dp)) {
                 Image(painter = painterResource(id = R.drawable.papel), contentDescription = "papel")
             }
-            Button(onClick = {/*TODO*/} ) {
+            Button(onClick = { /*TODO*/ },Modifier.width(width =125.dp).padding(5.dp)) {
                 Image(painter = painterResource(id = R.drawable.tijeras), contentDescription = "tijeras")
             }
         }
 
-        Row (Modifier.height(300.dp).fillMaxWidth()){}
+        Row (Modifier.height(400.dp).fillMaxWidth()){}
 
-        Row (Modifier.fillMaxWidth()){
-            Button(onClick = { /*TODO*/ },Modifier.width(width =100.dp).padding(10.dp)) {
+        Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
+            Button(onClick = { jugar(1) },Modifier.width(width =125.dp).padding(5.dp)) {
                 Image(painter = painterResource(id = R.drawable.piedra), contentDescription = "piedra")
             }
-            Button(onClick = { /*TODO*/ },Modifier.width(width =100.dp).padding(10.dp)) {
+            Button(onClick = { /*TODO*/ },Modifier.width(width =125.dp).padding(5.dp)) {
                 Image(painter = painterResource(id = R.drawable.papel), contentDescription = "papel")
             }
-            Button(onClick = { /*TODO*/ },Modifier.width(width =100.dp).padding(10.dp)) {
+            Button(onClick = { /*TODO*/ },Modifier.width(width =125.dp).padding(5.dp)) {
                 Image(painter = painterResource(id = R.drawable.tijeras), contentDescription = "tijeras")
             }
         }
+    }
+}
+
+fun jugar(jugador: Int){
+    var bot: Int = Random.nextInt()*3;
+
+    if(jugador==bot){
+
     }
 }
 
