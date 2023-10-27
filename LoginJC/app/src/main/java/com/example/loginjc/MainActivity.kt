@@ -74,20 +74,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         )
         Button(onClick = { /*TODO*/ }, modifier= Modifier.wrapContentWidth()){Text(text = "Login")}
     }
-    val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Routes.Login.route) {
-
-        composable(Routes.Login.route) {
-            Greeting(navController = navController)
-        }
-
-        composable(Routes.SignUp.route) {
-            Bienvenida(navController = navController)
-        }
-
-
-    }
 }
 
 @Composable
