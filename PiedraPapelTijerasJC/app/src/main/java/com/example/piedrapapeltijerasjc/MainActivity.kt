@@ -76,10 +76,16 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 fun jugar(jugador: Int){
     var bot: Int = Random.nextInt()*3;
+    var texto: String="";
 
     if(jugador==bot){
-
+        texto="Empate"
+    }else if(jugador>bot){
+        texto="Has ganado"
+    }else if(jugador<bot){
+        texto="has perdido"
     }
+    var mensaje = Toast.makeText(this texto, Toast.LENGTH_SHORT) // in Activity
 }
 
 @Preview(showBackground = true)
