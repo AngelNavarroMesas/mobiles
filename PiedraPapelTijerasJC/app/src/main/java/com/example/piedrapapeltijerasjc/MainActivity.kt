@@ -2,6 +2,7 @@ package com.example.piedrapapeltijerasjc
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,7 +25,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.piedrapapeltijerasjc.entidades.JugadorEntity
 import com.example.piedrapapeltijerasjc.ui.theme.PiedraPapelTijerasJCTheme
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -46,6 +50,7 @@ class MainActivity : ComponentActivity() {
 
 //Estas son las variables:
 //estas dos son para identificar la eleccion del jugador y la maquina
+var nombreJugador = ""
 var jugador = 0
 var bot=0
 //Estas dos cuentan los puntos de cada uno
@@ -53,11 +58,12 @@ var puntosJug = 0
 var puntosBot = 0
 //cuenta el turno por el que va la partida
 var partida = 0
-
+lateinit var Jugador: MutableList<JugadorEntity>
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val context= LocalContext.current
+    getJugador()
 
     Column (Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
         //Estas son las tres elecciones de la maquina, las he puesto en botones en caso de que haya que hacer una version pvp pero no hacen nada, es solo estetico
@@ -134,35 +140,64 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun turno(context: Context){
     //Hacemos que la maquina haga una eleccion aleatoria
     bot= Random.nextInt(1,4);
-    var texto: String="";
+    var texto ="";
 
     //Comprobamos quien ha ganado, en caso de empate no cuenta como que ha pasado un turno
     if(jugador==bot){
         texto="Empate"
+        partida++
     }else if(jugador==1&&bot==3||jugador==2&&bot==1||jugador==3&&bot==2){
         texto="Has ganado"
-        puntosJug ++
+        puntosJug++
         partida++
     }else if(jugador==3&&bot==1||jugador==1&&bot==2||jugador==2&&bot==3){
         texto="has perdido"
-        puntosBot ++
+        puntosBot++
         partida++
     }
 
     //comprobamos si se termina la partida, si han pasado 5 turnos termina y muestra quien es el ganador reiniciando los puntos de los dos jugadores y el contador de turnos
     //y si no han pasado 5 turnos muestra el ganador de este turno
-    if(partida!=5){
+    if(puntosBot!=3){
         Toast.makeText(context, texto, Toast.LENGTH_SHORT).show()
-    }else if(puntosJug>puntosBot){
-        Toast.makeText(context, "HAS GANADO LA PARTIDA!!!!  $puntosJug-$puntosBot", Toast.LENGTH_SHORT).show()
-        partida=0
-        puntosJug=0
-        puntosBot=0
+    //}else if(puntosJug>puntosBot){
+    //    Toast.makeText(context, "HAS GANADO LA PARTIDA!!!!  $puntosJug-$puntosBot", Toast.LENGTH_SHORT).show()
+    //    partida=0
+    //    puntosJug=0
+    //    puntosBot=0
     }else{
-        Toast.makeText(context, "Has perdido la partida...  $puntosJug-$puntosBot", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Ha terminado la partida $puntosJug-$puntosBot", Toast.LENGTH_SHORT).show()
+
+        addJugador(JugadorEntity(name = findViewById<EditText>(R.id.etTask).text.toString()))
+
         partida=0
         puntosJug=0
         puntosBot=0
+    }
+}
+
+fun getJugador()= runBlocking {       // Corrutina que saca de la base de datos la lista de tareas
+    launch {                        // Inicio del hilo
+        Jugador = HighScoreApp.database.JugadorDao().getAllJugadores()    // Se carga la lista de tareas
+        //setUpRecyclerView(tasks)         se pasa la lista a la Vista
+    }
+}
+
+fun addJugador(task:JugadorEntity)= runBlocking{  // Corrutina que añade una tarea a la lista
+    launch {
+        val id = HighScoreApp.database.JugadorDao().addJugador(task)   // Inserta una tarea nueva
+        val recoveryJugador = HighScoreApp.database.JugadorDao().getJugadorById(id)   // Recarga la lista
+        Jugador.add(recoveryJugador) // Añade al final de la lista, el nuevo
+        //adapter.notifyItemInserted(tasks.size)  // El adaptador notifica que se ha insertado
+        //clearFocus()        // Se elimina el texto del et ...
+        //hideKeyboard()      // y se oculta el teclado
+    }
+}
+
+fun updateJugador(task: JugadorEntity) = runBlocking{
+    launch {
+
+        HighScoreApp.database.JugadorDao().updateJugador(task) // Actualiza en la base de datos
     }
 }
 
