@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = "login"
                 ) {
                     composable(route="login") { Login(navController,modifier) }
-                    //composable(route="juego") { Juego(navController,modifier) }
+                    composable(route="juego") { Juego(navController,modifier) }
                 }
             }
 
