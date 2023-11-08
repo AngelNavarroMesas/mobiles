@@ -1,11 +1,13 @@
 package com.example.piedrapapeltijerasjc
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.piedrapapeltijerasjc.entidades.JugadorEntity
 
+@Dao
 interface JugadorDao {
     @Query("SELECT * FROM jugador_entity")
     suspend fun getAllJugadores(): MutableList<JugadorEntity>

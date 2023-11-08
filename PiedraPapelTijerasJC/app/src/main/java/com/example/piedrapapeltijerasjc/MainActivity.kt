@@ -2,11 +2,11 @@ package com.example.piedrapapeltijerasjc
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,15 +16,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.piedrapapeltijerasjc.entidades.JugadorEntity
 import com.example.piedrapapeltijerasjc.ui.theme.PiedraPapelTijerasJCTheme
 import kotlinx.coroutines.launch
@@ -35,13 +47,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
+            var modifier = Modifier
+                .fillMaxSize()
+                .background(Blue)
+                .padding(50.dp)
             PiedraPapelTijerasJCTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = modifier,
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    NavHost(
+                        navController = navController,
+                        startDestination = "login"
+                    ) {
+                        composable(route="login") { Login(navController,modifier) }
+                        composable(route="juego") { Greeting(navController,modifier) }
+                    }
                 }
             }
         }
@@ -61,7 +84,7 @@ var partida = 0
 lateinit var Jugador: MutableList<JugadorEntity>
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(navController: NavController, modifier: Modifier = Modifier) {
     val context= LocalContext.current
     getJugador()
 
@@ -89,7 +112,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         }
 
         //Esta fila mostraria la eleccion de cada jugador pero no he conseguido hacer que funcione la funcion
-        Row (Modifier.height(400.dp).fillMaxWidth()){ /*mostrarEleccion()*/}
+        Row (
+            Modifier
+                .height(400.dp)
+                .fillMaxWidth()){ /*mostrarEleccion()*/}
 
         //Estas son las elecciones del jugador, cada una es un boton con una imagen indicando si es piedra, papel o tijeras
         Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
@@ -114,6 +140,22 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         }
     }
 
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Login(navController: NavController, modifier: Modifier = Modifier){
+    Column (horizontalAlignment = Alignment.CenterHorizontally){
+        Row {
+            Text(text = "Nombre")
+            var text by remember { mutableStateOf("") }
+            TextField(value = text, onValueChange = { text = it })
+        }
+        Button(onClick = {}) {
+            Text(text = "Jugar")
+        }
+    }
 }
 
 //Esta es la funcion que deberia mostrar las imagenes en el centro
@@ -168,7 +210,7 @@ fun turno(context: Context){
     }else{
         Toast.makeText(context, "Ha terminado la partida $puntosJug-$puntosBot", Toast.LENGTH_SHORT).show()
 
-        addJugador(JugadorEntity(name = findViewById<EditText>(R.id.etTask).text.toString()))
+        //addJugador(JugadorEntity())
 
         partida=0
         puntosJug=0
@@ -205,6 +247,6 @@ fun updateJugador(task: JugadorEntity) = runBlocking{
 @Composable
 fun GreetingPreview() {
     PiedraPapelTijerasJCTheme {
-        Greeting("Android")
+        Login(navController = rememberNavController())
     }
 }

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.piedrapapeltijerasjc"
+    namespace = "com.example.pptjcbasedatos"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.piedrapapeltijerasjc"
+        applicationId = "com.example.pptjcbasedatos"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
@@ -52,14 +52,11 @@ android {
 
 dependencies {
 
-
     implementation ("androidx.navigation:navigation-compose:2.7.4")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("androidx.room:room-ktx:2.6.0")
     kapt ("androidx.room:room-compiler:2.6.0")
 
-    implementation("androidx.navigation:navigation-compose:2.7.4")
-    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")
