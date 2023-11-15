@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             var modifier = Modifier.fillMaxSize().background(Color.LightGray).padding(50.dp)
             Column(
-                modifier=modifier,
+                modifier = modifier,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -37,11 +37,10 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = "login"
                 ) {
-                    composable(route="login") { Login(navController,modifier) }
-                    composable(route="juego") { Juego(navController,modifier) }
+                    composable(route = "login") { Login(navController, modifier) }
+                    composable(route = "juego") { Juego(navController, modifier) }
                 }
             }
-
         }
     }
 }
