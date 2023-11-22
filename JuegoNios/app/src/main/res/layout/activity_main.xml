@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:clickable="true"
+        android:id="@+id/imagenPerro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/perro">
+    </ImageView>
+
+    <ImageView
+        android:clickable="true"
+        android:id="@+id/imagenRana"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/perro">
+    </ImageView>
+
+    <ImageView
+        android:clickable="true"
+        android:id="@+id/imagenPlatano"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/perro">
+    </ImageView>
+
+</LinearLayout>
