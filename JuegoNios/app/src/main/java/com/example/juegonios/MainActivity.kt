@@ -19,26 +19,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val img = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
-        mediaplayer = MediaPlayer.create(this, R.raw.platano);
-
-
-
         var perro = findViewById<ImageView>(R.id.imagenPerro);
         var rana = findViewById<ImageView>(R.id.imagenRana);
         var platano = findViewById<ImageView>(R.id.imagenPlatano);
 
         perro!!.setOnClickListener(this);
 
+        rana!!.setOnClickListener(this);
+
+        platano!!.setOnClickListener(this);
 
     }
 
     override fun onClick(v: View?) {
         if (v != null) {
             when(v.id){
-                R.id.imagenPerro ->
+                R.id.imagenPerro ->{
+                    mediaplayer = MediaPlayer.create(this, R.raw.perro)
                     mediaplayer!!.start()
+                }
+                R.id.imagenRana ->{
+                    mediaplayer = MediaPlayer.create(this, R.raw.rana)
+                    mediaplayer!!.start()
+                }
+                R.id.imagenPlatano ->{
+                    mediaplayer = MediaPlayer.create(this, R.raw.platano)
+                    mediaplayer!!.start()
+                }
             }
         }
     }
-
 }
